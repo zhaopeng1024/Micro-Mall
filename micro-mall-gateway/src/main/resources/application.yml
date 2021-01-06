@@ -1,0 +1,11 @@
+spring:
+  cloud:
+    gateway:
+      routes:
+        # 增加路由配置，lb代表loadbalance负载均衡，断言表示哪种情况下需要路由给它
+        - id: admin_route
+          uri: lb://renren-fast
+          predicates:
+            - Path=/api/**
+          filters:
+            - RewritePath=/api/(?<segment>/?.*), /renren-fast/$\{segment}

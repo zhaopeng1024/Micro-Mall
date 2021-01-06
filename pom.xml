@@ -10,11 +10,14 @@
     <packaging>pom</packaging>
 
     <modules>
-        <module>micro-mall-coupon</module>
         <module>micro-mall-product</module>
+        <module>micro-mall-sell</module>
         <module>micro-mall-order</module>
         <module>micro-mall-member</module>
         <module>micro-mall-ware</module>
+        <module>renren-fast</module>
+        <module>renren-generator</module>
+        <module>micro-mall-common</module>
     </modules>
 
 </project>
