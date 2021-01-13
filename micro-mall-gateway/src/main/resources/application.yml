@@ -3,6 +3,20 @@ spring:
     gateway:
       routes:
         # 增加路由配置，lb代表loadbalance负载均衡，断言表示哪种情况下需要路由给它
+        - id: product_route
+          uri: lb://micro-mall-product
+          predicates:
+            - Path=/api/product/**
+          filters:
+            - RewritePath=/api/(?<segment>/?.*), /$\{segment}
+
+        - id: supplier_route
+          uri: lb://micro-mall-supplier
+          predicates:
+            - Path=/api/suppliers/**
+          filters:
+            - RewritePath=/api/(?<segment>/?.*), /$\{segment}
+
         - id: admin_route
           uri: lb://renren-fast
           predicates:
