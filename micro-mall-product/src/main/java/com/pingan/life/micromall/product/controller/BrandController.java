@@ -1,20 +1,21 @@
 package com.pingan.life.micromall.product.controller;
 
-import java.util.Arrays;
-import java.util.Map;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-
-import com.pingan.life.micromall.product.entity.BrandEntity;
-import com.pingan.life.micromall.product.service.BrandService;
+import com.pingan.life.common.jsr303.ParamCheckGroupForSave;
+import com.pingan.life.common.jsr303.ParamCheckGroupForUpdate;
+import com.pingan.life.common.jsr303.ParamCheckGroupForUpdateStatus;
 import com.pingan.life.common.utils.PageUtils;
 import com.pingan.life.common.utils.R;
+import com.pingan.life.micromall.product.entity.BrandEntity;
+import com.pingan.life.micromall.product.service.BrandService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 
 
 /**
@@ -34,10 +35,8 @@ public class BrandController {
      * 列表
      */
     @RequestMapping("/list")
-    //@RequiresPermissions("product:brand:list")
     public R list(@RequestParam Map<String, Object> params){
         PageUtils page = brandService.queryPage(params);
-
         return R.ok().put("page", page);
     }
 
@@ -46,10 +45,8 @@ public class BrandController {
      * 信息
      */
     @RequestMapping("/info/{brandId}")
-    //@RequiresPermissions("product:brand:info")
     public R info(@PathVariable("brandId") Long brandId){
 		BrandEntity brand = brandService.getById(brandId);
-
         return R.ok().put("brand", brand);
     }
 
@@ -57,10 +54,8 @@ public class BrandController {
      * 保存
      */
     @RequestMapping("/save")
-    //@RequiresPermissions("product:brand:save")
-    public R save(@RequestBody BrandEntity brand){
+    public R save(@RequestBody @Validated(ParamCheckGroupForSave.class) BrandEntity brand, BindingResult result){
 		brandService.save(brand);
-
         return R.ok();
     }
 
@@ -68,10 +63,17 @@ public class BrandController {
      * 修改
      */
     @RequestMapping("/update")
-    //@RequiresPermissions("product:brand:update")
-    public R update(@RequestBody BrandEntity brand){
-		brandService.updateById(brand);
+    public R update(@RequestBody @Validated(ParamCheckGroupForUpdate.class) BrandEntity brand){
+		brandService.updateBrandById(brand);
+        return R.ok();
+    }
 
+    /**
+     * 修改显示状态
+     */
+    @RequestMapping("/updateStatus")
+    public R updateStatus(@RequestBody @Validated(ParamCheckGroupForUpdateStatus.class) BrandEntity brand){
+        brandService.updateById(brand);
         return R.ok();
     }
 
@@ -79,10 +81,8 @@ public class BrandController {
      * 删除
      */
     @RequestMapping("/delete")
-    //@RequiresPermissions("product:brand:delete")
     public R delete(@RequestBody Long[] brandIds){
 		brandService.removeByIds(Arrays.asList(brandIds));
-
         return R.ok();
     }
 

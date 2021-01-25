@@ -3,6 +3,7 @@ package com.pingan.life.micromall.product.controller;
 import java.util.Arrays;
 import java.util.Map;
 
+import com.pingan.life.micromall.product.vo.SpuInfoVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -27,26 +28,23 @@ import com.pingan.life.common.utils.R;
 @RestController
 @RequestMapping("product/spuinfo")
 public class SpuInfoController {
+
     @Autowired
     private SpuInfoService spuInfoService;
 
     /**
-     * 列表
+     * 列表（SPU检索）
      */
     @RequestMapping("/list")
-    //@RequiresPermissions("product:spuinfo:list")
     public R list(@RequestParam Map<String, Object> params){
         PageUtils page = spuInfoService.queryPage(params);
-
         return R.ok().put("page", page);
     }
-
 
     /**
      * 信息
      */
     @RequestMapping("/info/{id}")
-    //@RequiresPermissions("product:spuinfo:info")
     public R info(@PathVariable("id") Long id){
 		SpuInfoEntity spuInfo = spuInfoService.getById(id);
 
@@ -54,13 +52,11 @@ public class SpuInfoController {
     }
 
     /**
-     * 保存
+     * 商品发布
      */
     @RequestMapping("/save")
-    //@RequiresPermissions("product:spuinfo:save")
-    public R save(@RequestBody SpuInfoEntity spuInfo){
-		spuInfoService.save(spuInfo);
-
+    public R save(@RequestBody SpuInfoVO spuInfo){
+		spuInfoService.saveSpuInfo(spuInfo);
         return R.ok();
     }
 

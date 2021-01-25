@@ -3,6 +3,7 @@ package com.pingan.life.micromall.product.controller;
 import java.util.Arrays;
 import java.util.Map;
 
+import com.pingan.life.micromall.product.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -15,8 +16,6 @@ import com.pingan.life.micromall.product.service.AttrService;
 import com.pingan.life.common.utils.PageUtils;
 import com.pingan.life.common.utils.R;
 
-
-
 /**
  * 商品属性
  *
@@ -27,8 +26,12 @@ import com.pingan.life.common.utils.R;
 @RestController
 @RequestMapping("product/attr")
 public class AttrController {
+
     @Autowired
     private AttrService attrService;
+
+    @Autowired
+    private CategoryService categoryService;
 
     /**
      * 列表
@@ -37,7 +40,6 @@ public class AttrController {
     //@RequiresPermissions("product:attr:list")
     public R list(@RequestParam Map<String, Object> params){
         PageUtils page = attrService.queryPage(params);
-
         return R.ok().put("page", page);
     }
 
@@ -46,10 +48,9 @@ public class AttrController {
      * 信息
      */
     @RequestMapping("/info/{attrId}")
-    //@RequiresPermissions("product:attr:info")
     public R info(@PathVariable("attrId") Long attrId){
-		AttrEntity attr = attrService.getById(attrId);
-
+		AttrEntity attr = attrService.getAttrById(attrId);
+		attr.setCategoryPath(categoryService.selectFullPath(attr.getCatelogId()));
         return R.ok().put("attr", attr);
     }
 
@@ -57,10 +58,8 @@ public class AttrController {
      * 保存
      */
     @RequestMapping("/save")
-    //@RequiresPermissions("product:attr:save")
     public R save(@RequestBody AttrEntity attr){
-		attrService.save(attr);
-
+		attrService.saveAttr(attr);
         return R.ok();
     }
 
@@ -68,10 +67,8 @@ public class AttrController {
      * 修改
      */
     @RequestMapping("/update")
-    //@RequiresPermissions("product:attr:update")
     public R update(@RequestBody AttrEntity attr){
-		attrService.updateById(attr);
-
+		attrService.updateAttrById(attr);
         return R.ok();
     }
 
@@ -82,7 +79,6 @@ public class AttrController {
     //@RequiresPermissions("product:attr:delete")
     public R delete(@RequestBody Long[] attrIds){
 		attrService.removeByIds(Arrays.asList(attrIds));
-
         return R.ok();
     }
 

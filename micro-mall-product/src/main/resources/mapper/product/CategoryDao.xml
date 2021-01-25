@@ -32,6 +32,4 @@
            and show_status = 1
          order by sort
     </select>
-
-
 </mapper>

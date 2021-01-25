@@ -59,10 +59,8 @@ public class CategoryController {
      * 保存
      */
     @RequestMapping("/save")
-    //@RequiresPermissions("product:category:save")
     public R save(@RequestBody CategoryEntity category){
 		categoryService.save(category);
-
         return R.ok();
     }
 
@@ -71,8 +69,16 @@ public class CategoryController {
      */
     @RequestMapping("/update")
     public R update(@RequestBody CategoryEntity category){
-		categoryService.updateById(category);
+		categoryService.updateCategoryById(category);
+        return R.ok();
+    }
 
+    /**
+     * 批量修改
+     */
+    @RequestMapping("/updateBatch")
+    public R update(@RequestBody CategoryEntity[] categories){
+        categoryService.updateBatchById(Arrays.asList(categories));
         return R.ok();
     }
 

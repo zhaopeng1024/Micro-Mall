@@ -1,10 +1,11 @@
 package com.pingan.life.micromall.product.entity;
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 
 import java.io.Serializable;
-import java.util.Date;
+
 import lombok.Data;
 
 /**
@@ -56,5 +57,29 @@ public class AttrEntity implements Serializable {
 	 * 快速展示【是否展示在介绍上；0-否 1-是】，在sku中仍然可以调整
 	 */
 	private Integer showDesc;
+
+	/**
+	 * 所属分组
+	 */
+	@TableField(exist = false)
+	private Long attrGroupId;
+
+	/**
+	 * 所属分类名字
+	 */
+	@TableField(exist = false)
+	private String categoryName;
+
+	/**
+	 * 所属分组名字
+	 */
+	@TableField(exist = false)
+	private String attrGroupName;
+
+	/**
+	 * 所属分类全路径
+	 */
+	@TableField(exist = false)
+	private Long[] categoryPath;
 
 }

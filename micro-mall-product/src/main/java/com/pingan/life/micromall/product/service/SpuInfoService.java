@@ -3,6 +3,7 @@ package com.pingan.life.micromall.product.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.pingan.life.common.utils.PageUtils;
 import com.pingan.life.micromall.product.entity.SpuInfoEntity;
+import com.pingan.life.micromall.product.vo.SpuInfoVO;
 
 import java.util.Map;
 
@@ -16,5 +17,11 @@ import java.util.Map;
 public interface SpuInfoService extends IService<SpuInfoEntity> {
 
     PageUtils queryPage(Map<String, Object> params);
+
+    /**
+     * 商品发布
+     * @param spuInfo
+     */
+    void saveSpuInfo(SpuInfoVO spuInfo);
 }
 

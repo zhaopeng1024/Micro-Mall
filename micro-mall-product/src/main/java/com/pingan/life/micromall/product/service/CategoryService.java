@@ -23,5 +23,18 @@ public interface CategoryService extends IService<CategoryEntity> {
      * @return
      */
     List<CategoryEntity> selectCategoriesWithTree();
+
+    /**
+     * 根据分类ID，查询分类的全路径
+     * @param catId 分类ID
+     * @return
+     */
+    Long[] selectFullPath(Long catId);
+
+    /**
+     * 修改分类信息，同时更新分类-品牌关联关系
+     * @param category
+     */
+    void updateCategoryById(CategoryEntity category);
 }
 
