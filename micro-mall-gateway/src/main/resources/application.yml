@@ -10,6 +10,20 @@ spring:
           filters:
             - RewritePath=/api/(?<segment>/?.*), /$\{segment}
 
+        - id: member_route
+          uri: lb://micro-mall-member
+          predicates:
+            - Path=/api/member/**
+          filters:
+            - RewritePath=/api/(?<segment>/?.*), /$\{segment}
+
+        - id: ware_route
+          uri: lb://micro-mall-ware
+          predicates:
+            - Path=/api/ware/**
+          filters:
+            - RewritePath=/api/(?<segment>/?.*), /$\{segment}
+
         - id: supplier_route
           uri: lb://micro-mall-supplier
           predicates:
